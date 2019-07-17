@@ -45,7 +45,12 @@ int main(int argc, char* argv[]) {
             printf("Source Port : %d \n", (packet[14+k]<<8)|packet[15+k]);
             printf("Destination Port : %d \n", (packet[16+k]<<8)|packet[17+k]);
             int k1=(packet[26+k]>>4)*4;
-            printf("TCP data : %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X\n", packet[14+k+k1],packet[15+k+k1],packet[16+k+k1],packet[17+k+k1],packet[18+k+k1],packet[19+k+k1],packet[20+k+k1],packet[21+k+k1],packet[22+k+k1],packet[23+k+k1]);
+            if ((0x48545450==(packet[14+k+k1]<<24|packet[15+k+k1]<<16|packet[16+k+k1]<<8|packet[17+k+k1]))|(0x474554==(packet[14+k+k1]<<16|packet[15+k+k1]<<8|packet[16+k+k1]))){
+                printf("TCP data : %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X\n", packet[14+k+k1],packet[15+k+k1],packet[16+k+k1],packet[17+k+k1],packet[18+k+k1],packet[19+k+k1],packet[20+k+k1],packet[21+k+k1],packet[22+k+k1],packet[23+k+k1]);
+            }
+            else{
+                printf("There is no TCP data\n");
+            }
         }
         else{
             printf("Layer Type : ETC\n");
